@@ -4,20 +4,22 @@
 
 {% block content %}
     <h2 class="mb-4">Toate Postările</h2>
+    
+    <!-- Loop through each post and display it as a large vertical card -->
     <div class="row">
-        {% for post in posts %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
+        <div class="col-md-8 mx-auto"> <!-- Center the posts on the page -->
+            {% for post in posts %}
+                <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">{{ post.title }}</h5>
-                        <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                        <h3 class="card-title">{{ post.title }}</h3>
+                        <p class="card-text">{{ post.content|truncatewords:50 }}</p>
                         <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">Citește mai mult</a>
                     </div>
                     <div class="card-footer text-muted">
                         Publicat la {{ post.created_at }}
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

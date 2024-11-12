@@ -30,60 +30,60 @@ Follow these instructions to set up the project locally.
 
 1. **Clone the repository**:
 
-   \`\`\`bash
+   ```bash
    git clone https://github.com/your-username/my-django-blog.git
    cd my-django-blog
-   \`\`\`
+   ```
 
 2. **Create a virtual environment**:
 
-   \`\`\`bash
+   ```bash
    python -m venv venv
-   \`\`\`
+   ```
 
 3. **Activate the virtual environment**:
 
    - On Windows:
-     \`\`\`bash
-     venv\\Scripts\\activate
-     \`\`\`
+     ```bash
+     venvScriptsactivate
+     ```
    - On macOS/Linux:
-     \`\`\`bash
+     ```bash
      source venv/bin/activate
-     \`\`\`
+     ```
 
 4. **Install Django and other required dependencies**:
 
-   \`\`\`bash
+   ```bash
    pip install -r requirements.txt
-   \`\`\`
+   ```
 
-   If there is no \`requirements.txt\` file, manually install Django with:
+   If there is no `requirements.txt` file, manually install Django with:
    
-   \`\`\`bash
+   ```bash
    pip install django
-   \`\`\`
+   ```
 
 5. **Initialize the database with migrations**:
 
-   \`\`\`bash
+   ```bash
    python manage.py makemigrations
    python manage.py migrate
-   \`\`\`
+   ```
 
 6. **Create a superuser** (for accessing the Django admin interface):
 
-   \`\`\`bash
+   ```bash
    python manage.py createsuperuser
-   \`\`\`
+   ```
 
    Follow the prompts to set up the superuser account.
 
 7. **Run the development server**:
 
-   \`\`\`bash
+   ```bash
    python manage.py runserver
-   \`\`\`
+   ```
 
 8. **Access the application**:
 
@@ -92,7 +92,7 @@ Follow these instructions to set up the project locally.
 
 ## 📂 Project Structure
 
-\`\`\`
+```
 my-django-blog/
 ├── blog/                 # Django app containing views, models, templates, etc.
 │   ├── migrations/
@@ -107,7 +107,7 @@ my-django-blog/
 ├── venv/                 # Virtual environment
 ├── manage.py             # Django management script
 └── requirements.txt      # Project dependencies
-\`\`\`
+```
 
 ## 💡 Usage
 
