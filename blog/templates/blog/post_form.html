@@ -1,0 +1,13 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ form.instance.id|yesno:"Editează Postare,Adaugă o Postare" }}{% endblock %}
+
+{% block content %}
+    <h2>{{ form.instance.id|yesno:"Editează Postare,Adaugă o Postare" }}</h2>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Salvează</button>
+        <a href="{% url 'post_list' %}" class="btn btn-secondary">Anulează</a>
+    </form>
+{% endblock %}

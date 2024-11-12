@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">{{ post.title }}</h2>
+            <p class="card-text">{{ post.content }}</p>
+            <div class="mt-4">
+                <a href="{% url 'post_edit' post.id %}" class="btn btn-warning">Editează</a>
+                <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Șterge</a>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            Publicat la {{ post.created_at }}
+        </div>
+    </div>
+{% endblock %}

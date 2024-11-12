@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Adaugă o postare{% endblock %}
+
+{% block content %}
+    <h2>Adaugă o postare</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Salvează</button>
+    </form>
+{% endblock %}

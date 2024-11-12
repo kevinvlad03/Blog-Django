@@ -1,0 +1,13 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Șterge Postarea{% endblock %}
+
+{% block content %}
+    <h2>Ești sigur că vrei să ștergi această postare?</h2>
+    <p>{{ post.title }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmă Ștergerea</button>
+        <a href="{% url 'post_detail' post.id %}">Anulează</a>
+    </form>
+{% endblock %}
