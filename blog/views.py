@@ -4,8 +4,12 @@ from .models import Post
 
 # Create your views here.
 def post_list(request):
-    posts = Post.objects.all().order_by('-created_at')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    query = request.GET.get('q')  # Preluăm termenul de căutare din query string
+    if query:
+        posts = Post.objects.filter(title__icontains=query).order_by('-created_at')
+    else:
+        posts = Post.objects.all().order_by('-created_at')
+    return render(request, 'blog/post_list.html', {'posts': posts, 'query': query})
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)

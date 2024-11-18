@@ -3,23 +3,31 @@
 {% block title %}Blog - Acasă{% endblock %}
 
 {% block content %}
-    <h2 class="mb-4">Toate Postările</h2>
-    
-    <!-- Loop through each post and display it as a large vertical card -->
+    <h2 class="mb-4">Postări</h2>
+
+    <!-- Display search query -->
+    {% if query %}
+        <p>Rezultate pentru: <strong>{{ query }}</strong></p>
+        {% if not posts %}
+            <p class="text-danger">Nu s-au găsit rezultate pentru termenul introdus.</p>
+        {% endif %}
+    {% endif %}
+
+    <!-- Blog post list -->
     <div class="row">
-        <div class="col-md-8 mx-auto"> <!-- Center the posts on the page -->
-            {% for post in posts %}
+        {% for post in posts %}
+            <div class="col-md-8 mx-auto">
                 <div class="card mb-4">
                     <div class="card-body">
                         <h3 class="card-title">{{ post.title }}</h3>
-                        <p class="card-text">{{ post.content|truncatewords:50 }}</p>
+                        <p class="card-text">{{ post.content|truncatewords:30 }}</p>
                         <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">Citește mai mult</a>
                     </div>
                     <div class="card-footer text-muted">
                         Publicat la {{ post.created_at }}
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
