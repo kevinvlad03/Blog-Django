@@ -6,6 +6,14 @@
     <div class="card">
         <div class="card-body">
             <h2 class="card-title">{{ post.title }}</h2>
+            {% if post.image %}
+        <img src="{{ post.image.url }}" class="img-fluid mb-3" alt="{{ post.title }}">
+    {% endif %}
+    {% if post.video_url %}
+        <div class="embed-responsive embed-responsive-16by9 mb-3">
+            <iframe class="embed-responsive-item" src="{{ post.video_url }}" allowfullscreen></iframe>
+        </div>
+    {% endif %}
             <p class="card-text">{{ post.content }}</p>
             <div class="mt-4">
                 <a href="{% url 'post_edit' post.id %}" class="btn btn-warning">Editează</a>
@@ -17,4 +25,5 @@
             Publicat la {{ post.created_at }}
         </div>
     </div>
+    
 {% endblock %}

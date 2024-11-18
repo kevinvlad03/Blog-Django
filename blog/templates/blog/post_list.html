@@ -14,20 +14,25 @@
     {% endif %}
 
     <!-- Blog post list -->
-    <div class="row">
-        {% for post in posts %}
-            <div class="col-md-8 mx-auto">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3 class="card-title">{{ post.title }}</h3>
-                        <p class="card-text">{{ post.content|truncatewords:30 }}</p>
-                        <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">Citește mai mult</a>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Publicat la {{ post.created_at }}
-                    </div>
+    {% for post in posts %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">{{ post.title }}</h3>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid d-block mx-auto mb-3">
+            {% endif %}
+            {% if post.video_url %}
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="{{ post.video_url }}" allowfullscreen></iframe>
                 </div>
-            </div>
-        {% endfor %}
+            {% endif %}
+            <p>{{ post.content|truncatewords:30 }}</p>
+            <a href="{% url 'post_detail' post.pk %}" class="btn btn-primary">Citește mai mult</a>
+        </div>
+        <div class="card-footer text-muted">
+            Publicat la {{ post.created_at }}
+        </div>
+    </div>
+{% endfor %}
     </div>
 {% endblock %}
