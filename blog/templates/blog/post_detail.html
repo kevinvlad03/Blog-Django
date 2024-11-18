@@ -10,6 +10,7 @@
             <div class="mt-4">
                 <a href="{% url 'post_edit' post.id %}" class="btn btn-warning">Editează</a>
                 <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Șterge</a>
+                <a href="{% url 'export_post_pdf' post.id %}" class="btn btn-primary">Exportă în PDF</a>
             </div>
         </div>
         <div class="card-footer text-muted">
