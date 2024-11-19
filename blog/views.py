@@ -8,7 +8,7 @@ from .models import Post
 
 # Create your views here.
 def post_list(request):
-    query = request.GET.get('q')  # Preluăm termenul de căutare din query string
+    query = request.GET.get('q')  
     if query:
         posts = Post.objects.filter(title__icontains=query).order_by('-created_at')
     else:
@@ -32,7 +32,7 @@ def post_create(request):
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES, instance=post)  # Adăugăm `request.FILES`
+        form = PostForm(request.POST, request.FILES, instance=post)  
         if form.is_valid():
             form.save()
             return redirect('post_detail', pk=post.pk)
@@ -52,27 +52,22 @@ def contact(request):
     return render(request, 'blog/contact.html')
 
 def export_post_pdf(request, pk):
-    # Obținem articolul curent
+    
     post = Post.objects.get(pk=pk)
 
-    # Configurăm răspunsul HTTP ca un fișier PDF
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{post.title}.pdf"'
 
-    # Generăm PDF-ul
     pdf = canvas.Canvas(response)
     pdf.setTitle(post.title)
 
-    # Adăugăm logo-ul
-    logo_path = settings.BASE_DIR / 'blog/static/blog/logo.png'  # Calea absolută către logo
+    logo_path = settings.BASE_DIR / 'blog/static/blog/logo.png'  
     logo = ImageReader(logo_path)
-    pdf.drawImage(logo, 50, 750, width=100, height=50)  # Poziția și dimensiunea logo-ului
+    pdf.drawImage(logo, 50, 750, width=100, height=50)  
 
-    # Adăugăm titlul articolului
     pdf.setFont("Helvetica-Bold", 20)
     pdf.drawString(50, 700, post.title)
 
-    # Adăugăm conținutul articolului
     pdf.setFont("Helvetica", 12)
     text = pdf.beginText(50, 650)
     text.textLines(post.content)
