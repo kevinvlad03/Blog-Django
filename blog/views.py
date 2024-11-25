@@ -1,10 +1,20 @@
+import os
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import PostForm
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
+import textwrap
 from .models import Post
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+font_path = os.path.join(BASE_DIR, 'blog/static/fonts/DejaVuSans.ttf')
+
+pdfmetrics.registerFont(TTFont('DejaVuSans', font_path))
+
 
 # Create your views here.
 def post_list(request):
@@ -52,7 +62,6 @@ def contact(request):
     return render(request, 'blog/contact.html')
 
 def export_post_pdf(request, pk):
-    
     post = Post.objects.get(pk=pk)
 
     response = HttpResponse(content_type='application/pdf')
@@ -61,18 +70,35 @@ def export_post_pdf(request, pk):
     pdf = canvas.Canvas(response)
     pdf.setTitle(post.title)
 
-    logo_path = settings.BASE_DIR / 'blog/static/blog/logo.png'  
+    # Font și logo
+    pdf.setFont("DejaVuSans", 12)
+    logo_path = settings.BASE_DIR / 'blog/static/blog/logo.png'
     logo = ImageReader(logo_path)
-    pdf.drawImage(logo, 50, 750, width=100, height=50)  
+    pdf.drawImage(logo, 50, 750, width=100, height=50)
 
-    pdf.setFont("Helvetica-Bold", 20)
-    pdf.drawString(50, 700, post.title)
+    # Titlu
+    pdf.setFont("DejaVuSans", 16)
+    pdf.drawString(100, 700, post.title)
 
-    pdf.setFont("Helvetica", 12)
-    text = pdf.beginText(50, 650)
-    text.textLines(post.content)
+     # Adaugă imaginea articolului, dacă există
+    if post.image:
+        image_path = settings.MEDIA_ROOT / post.image.name  # Obține calea completă a imaginii
+        try:
+            pdf.drawImage(ImageReader(image_path), 50, 200, width=500, height=300)  # Poziționează imaginea
+        except Exception as e:
+            pdf.drawString(50, 500, "Imaginea nu a putut fi încărcată.")
 
-    pdf.drawText(text)
+    # Conținut împărțit în linii multiple
+    content = post.content
+    text_object = pdf.beginText(30, 650)  # Poziția inițială pentru text
+    text_object.setFont("DejaVuSans", 10)
+
+    # Împarte textul în linii pentru o lățime specifică
+    wrapped_text = textwrap.wrap(content, width=110)  # Ajustează `width` după cum este nevoie
+    for line in wrapped_text:
+        text_object.textLine(line)
+
+    pdf.drawText(text_object)
     pdf.showPage()
     pdf.save()
 
